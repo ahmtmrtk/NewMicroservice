@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using System.Threading.Tasks;
 
 namespace NewMicroservice.Shared.Extensions
@@ -14,6 +16,11 @@ namespace NewMicroservice.Shared.Extensions
         {
             services.AddHttpContextAccessor();
             services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining(assembly));
+            services.AddValidatorsFromAssemblyContaining(assembly);
+
+
+
+
             return services;
         }
     }

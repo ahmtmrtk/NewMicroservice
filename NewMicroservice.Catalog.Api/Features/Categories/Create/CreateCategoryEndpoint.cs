@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NewMicroservice.Shared.Extensions;
+using NewMicroservice.Shared.Filters;
 
 namespace NewMicroservice.Catalog.Api.Features.Categories.Create
 {
@@ -12,7 +13,7 @@ namespace NewMicroservice.Catalog.Api.Features.Categories.Create
             {
                 return (await mediator.Send(command)).ToGenericResult();
 
-            });
+            }).AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>(); 
             return group;
         }
     }

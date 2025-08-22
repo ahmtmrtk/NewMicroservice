@@ -106,7 +106,7 @@ namespace NewMicroservice.Shared
     public class ServiceResult<T> : ServiceResult
     {
         public T? Data { get; set; }
-        public string? UrlAsCreated { get; set; }
+       [JsonIgnore] public string? UrlAsCreated { get; set; }
         public static ServiceResult<T> SuccessAsOk(T data) => new ServiceResult<T> { Status = HttpStatusCode.Created, Data = data};      
         public static ServiceResult<T> SuccessAsCreated(T data, string url) => new ServiceResult<T> { Status = HttpStatusCode.Created, Data = data, UrlAsCreated = url };      
         public new static ServiceResult<T> Error(ProblemDetails problemDetails, HttpStatusCode status)
