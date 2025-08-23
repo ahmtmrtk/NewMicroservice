@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NewMicroservice.Catalog.Api.Features.Categories.Dto;
 using NewMicroservice.Catalog.Api.Repositories;
@@ -7,14 +8,14 @@ using System.Linq;
 
 namespace NewMicroservice.Catalog.Api.Features.Categories.GetAll
 {
-    public class GetAllCategoryHandler(AppDbContext context) : IRequestHandler<GetAllCategoryQuery, ServiceResult<List<CategoryDto>>>
+    public class GetAllCategoryHandler(AppDbContext context,IMapper mapper) : IRequestHandler<GetAllCategoryQuery, ServiceResult<List<CategoryDto>>>
     {
         public async Task<ServiceResult<List<CategoryDto>>> Handle(GetAllCategoryQuery request, CancellationToken cancellationToken)
         {
-            var categories = await context.Categories
-                .Select(c => new CategoryDto(c.Id, c.Name))
+            var categories = await context.Categories                
                 .ToListAsync(cancellationToken);
-            return ServiceResult<List<CategoryDto>>.SuccessAsOk(categories);
+            var categoriesDto = mapper.Map<List<CategoryDto>>(categories);
+            return ServiceResult<List<CategoryDto>>.SuccessAsOk(categoriesDto);
         }
     }
     
