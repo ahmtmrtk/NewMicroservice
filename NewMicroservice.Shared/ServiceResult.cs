@@ -1,4 +1,5 @@
 ﻿
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
 using System;
@@ -13,6 +14,8 @@ using ProblemDetails = Microsoft.AspNetCore.Mvc.ProblemDetails;
 
 namespace NewMicroservice.Shared
 {
+    public interface IRequestByServiceResult<T> : IRequest<ServiceResult<T>>;
+    public interface IRequestByServiceResult : IRequest<ServiceResult>;
     public class ServiceResult
     {
         [JsonIgnore]
@@ -106,9 +109,9 @@ namespace NewMicroservice.Shared
     public class ServiceResult<T> : ServiceResult
     {
         public T? Data { get; set; }
-       [JsonIgnore] public string? UrlAsCreated { get; set; }
-        public static ServiceResult<T> SuccessAsOk(T data) => new ServiceResult<T> { Status = HttpStatusCode.Created, Data = data};      
-        public static ServiceResult<T> SuccessAsCreated(T data, string url) => new ServiceResult<T> { Status = HttpStatusCode.Created, Data = data, UrlAsCreated = url };      
+        [JsonIgnore] public string? UrlAsCreated { get; set; }
+        public static ServiceResult<T> SuccessAsOk(T data) => new ServiceResult<T> { Status = HttpStatusCode.OK, Data = data };
+        public static ServiceResult<T> SuccessAsCreated(T data, string url) => new ServiceResult<T> { Status = HttpStatusCode.Created, Data = data, UrlAsCreated = url };
         public new static ServiceResult<T> Error(ProblemDetails problemDetails, HttpStatusCode status)
         {
             return new ServiceResult<T>()

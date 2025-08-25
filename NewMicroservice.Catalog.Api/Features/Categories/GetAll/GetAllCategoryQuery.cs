@@ -5,7 +5,7 @@ using NewMicroservice.Shared;
 
 namespace NewMicroservice.Catalog.Api.Features.Categories.GetAll
 {
-    public class GetAllCategoryQuery : IRequest<ServiceResult<List<CategoryDto>>>
+    public class GetAllCategoryQuery : IRequestByServiceResult<List<CategoryDto>>
     {
 
     }

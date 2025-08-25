@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using NewMicroservice.Catalog.Api.Features.Categories.Dto;
+﻿using NewMicroservice.Catalog.Api.Features.Categories.Dto;
 using NewMicroservice.Catalog.Api.Repositories;
-using NewMicroservice.Shared;
-using System.Linq;
+
 
 namespace NewMicroservice.Catalog.Api.Features.Categories.GetAll
 {

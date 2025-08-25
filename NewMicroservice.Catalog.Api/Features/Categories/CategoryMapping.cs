@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NewMicroservice.Catalog.Api.Features.Categories.Dto;
+﻿using NewMicroservice.Catalog.Api.Features.Categories.Dto;
 
 namespace NewMicroservice.Catalog.Api.Features.Categories
 {

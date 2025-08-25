@@ -1,7 +1,4 @@
-﻿using MediatR;
-using NewMicroservice.Catalog.Api.Features.Categories.Dto;
-using NewMicroservice.Shared.Extensions;
-using NewMicroservice.Shared.Filters;
+﻿
 
 namespace NewMicroservice.Catalog.Api.Features.Categories.GetAll
 {
