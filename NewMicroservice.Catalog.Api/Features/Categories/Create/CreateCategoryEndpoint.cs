@@ -10,7 +10,9 @@ namespace NewMicroservice.Catalog.Api.Features.Categories.Create
             {
                 return (await mediator.Send(command)).ToGenericResult();
 
-            }).AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>(); 
+            }).WithName("CreateCategory")
+            .Produces<Guid>(StatusCodes.Status201Created)
+            .AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>();
             return group;
         }
     }

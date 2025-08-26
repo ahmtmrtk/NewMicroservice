@@ -8,7 +8,7 @@ namespace NewMicroservice.Catalog.Api.Features.Categories
     {
         public static void AddCategoryGroupEndpointExt(this WebApplication app)
         {
-            app.MapGroup("api/categories").CreateCategoryGroupItemEndpoint().GetAllCategoryGroupItemEndpoint().GetByIdCategoryGroupItemEndpoint();
+            app.MapGroup("api/categories").WithTags("Category").CreateCategoryGroupItemEndpoint().GetAllCategoryGroupItemEndpoint().GetByIdCategoryGroupItemEndpoint();
         }
     }
 }
