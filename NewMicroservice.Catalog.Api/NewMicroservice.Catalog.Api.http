@@ -48,3 +48,8 @@ Content-Type: application/json
     "imageUrl": "https://example.com/updated-image.png",
     "price": 79.99  
 }
+
+###
+DELETE {{BaseAddress}}/api/courses/{{CourseId}}
+Accept: application/json
+###
