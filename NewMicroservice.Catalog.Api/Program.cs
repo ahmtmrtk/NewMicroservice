@@ -21,6 +21,11 @@ builder.Services.AddCommonServiceExt(typeof(CategoryAssembly));
 
 var app = builder.Build();
 
+app.AddSeedDataExt().ContinueWith(x =>
+{
+    Console.WriteLine(x.IsFaulted ? x.Exception?.Message : "Seed data added successfully.");
+
+});
 app.AddCategoryGroupEndpointExt();
 app.AddCourseGroupEndpointExt();
 
