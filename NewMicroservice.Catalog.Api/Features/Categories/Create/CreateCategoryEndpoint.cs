@@ -11,6 +11,7 @@ namespace NewMicroservice.Catalog.Api.Features.Categories.Create
                 return (await mediator.Send(command)).ToGenericResult();
 
             }).WithName("CreateCategory")
+            .MapToApiVersion(1.0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>();
             return group;

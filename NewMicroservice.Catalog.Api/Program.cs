@@ -8,6 +8,7 @@ using NewMicroservice.Catalog.Api.Features.Courses;
 using NewMicroservice.Catalog.Api.Options;
 using NewMicroservice.Catalog.Api.Repositories;
 using NewMicroservice.Shared.Extensions;
+using UdemyNewMicroservice.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +27,10 @@ app.AddSeedDataExt().ContinueWith(x =>
     Console.WriteLine(x.IsFaulted ? x.Exception?.Message : "Seed data added successfully.");
 
 });
-app.AddCategoryGroupEndpointExt();
-app.AddCourseGroupEndpointExt();
+
+
+app.AddCategoryGroupEndpointExt(app.AddVersionSetExt());
+app.AddCourseGroupEndpointExt(app.AddVersionSetExt());
 
 
 // Configure the HTTP request pipeline.

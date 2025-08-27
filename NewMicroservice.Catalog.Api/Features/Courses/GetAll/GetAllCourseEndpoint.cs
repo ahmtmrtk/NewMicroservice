@@ -9,6 +9,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.GetAll
         {
             group.MapGet("/", async (IMediator mediator) => (await mediator.Send(new GetAllCourseQuery())).ToGenericResult())
                 .WithName("GetAllCourse")
+                .MapToApiVersion(1.0)
                 .Produces<List<CategoryDto>>(StatusCodes.Status200OK);
 
 

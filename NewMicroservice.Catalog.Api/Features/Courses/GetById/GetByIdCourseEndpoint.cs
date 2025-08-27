@@ -8,6 +8,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.GetById
         {
             group.MapGet("/{id:guid}", async (IMediator mediator, Guid id) => (await mediator.Send(new GetByIdCourseQuery(id))).ToGenericResult())
                 .WithName("GetByIdCourse")
+                .MapToApiVersion(1.0)
                 .Produces<CourseDto>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound);
 

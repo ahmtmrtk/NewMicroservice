@@ -11,6 +11,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Create
                 return (await mediator.Send(command)).ToGenericResult();
 
             }).WithName("CreateCourse")
+            .MapToApiVersion(1.0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
             .AddEndpointFilter<ValidationFilter<CreateCourseCommand>>();
