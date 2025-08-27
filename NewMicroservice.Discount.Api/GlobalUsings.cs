@@ -1,0 +1,10 @@
+﻿global using MassTransit;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using NewMicroservice.Shared;
+global using NewMicroservice.Shared.Extensions;
+global using NewMicroservice.Shared.Filters;
+global using System.Net;
+global using MassTransit;
+global using FluentValidation;
+global using AutoMapper;

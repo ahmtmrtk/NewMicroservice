@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOptionsExt();
 builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(CategoryAssembly));
+builder.Services.AddVersioningExt();
 
 var app = builder.Build();
 
