@@ -1,4 +1,5 @@
 using NewMicroservice.Discount.Api;
+using NewMicroservice.Discount.Api.Features.Discounts;
 using NewMicroservice.Discount.Api.Options;
 using NewMicroservice.Discount.Api.Repositories;
 using NewMicroservice.Shared.Extensions;
@@ -29,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapOpenApi();
 }
-
+app.AddCourseGroupEndpointExt(app.AddVersionSetExt());
 
 
 app.Run();

@@ -13,7 +13,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses
     {
         public static void AddCourseGroupEndpointExt(this WebApplication app, ApiVersionSet apiVersionSet)
         {
-            app.MapGroup("api/v:{version:apiVersion}/courses").WithTags("Courses").WithApiVersionSet(apiVersionSet).CreateCourseGroupItemEndpoint().GetAllCourseGroupItemEndpoint()
+            app.MapGroup("api/v{version:apiVersion}/courses").WithTags("Courses").WithApiVersionSet(apiVersionSet).CreateCourseGroupItemEndpoint().GetAllCourseGroupItemEndpoint()
             .GetByIdCourseGroupItemEndpoint().UpdateCourseGroupItemEndpoint().DeleteCourseGroupItemEndpoint().GetAllCourseByUserGroupItemEndpoint();
         }
     }

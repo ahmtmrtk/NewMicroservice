@@ -7,7 +7,7 @@ namespace NewMicroservice.Discount.Api.Repositories
     {
 
 
-        public DbSet<Features.Discounts.Discount> Categories { get; set; }
+        public DbSet<Features.Discounts.Discount> Discounts { get; set; }
 
 
         public static AppDbContext Create(IMongoDatabase database)
