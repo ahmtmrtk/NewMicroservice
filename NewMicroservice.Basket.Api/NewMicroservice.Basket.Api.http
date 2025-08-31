@@ -1,6 +1,13 @@
-@NewMicroservice.Basket.Api_HostAddress = http://localhost:5247
+@BaseAddress = http://localhost:5247
 
-GET {{NewMicroservice.Basket.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+Post {{BaseAddress}}/api/v1/basket/item
+Accept : application/json
+Content-Type: application/json
+{
+  "courseId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "courseName": "xxx1",
+  "coursePrice": 10
+ 
+}
 
 ###
