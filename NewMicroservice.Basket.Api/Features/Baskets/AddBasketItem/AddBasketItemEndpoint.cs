@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using NewMicroservice.Basket.Api.Features.Baskets.ApplyDiscountCoupon;
 using NewMicroservice.Shared.Extensions;
 using NewMicroservice.Shared.Filters;
 
@@ -14,9 +15,7 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.AddBasketItem
 
             }).WithName("AddBasketItem")
             .MapToApiVersion(1.0)
-            .Produces<Guid>(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status404NotFound)
-            .AddEndpointFilter<ValidationFilter<AddBasketItemCommand>>();
+            .AddEndpointFilter<ValidationFilter<ApplyDiscountCouponCommandValidator>>();
             return group;
         }
     }

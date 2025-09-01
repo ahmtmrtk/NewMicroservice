@@ -4,9 +4,9 @@ Post {{BaseAddress}}/api/v1/basket/item
 Accept : application/json
 Content-Type: application/json
 {
-  "courseId": "3fa85f64-5717-6562-b3fc-2c963f66afa6",
-  "courseName": "xxx2",
-  "coursePrice": 15
+  "courseId": "3fa85f64-5537-6562-b3fc-2c963f66afa6",
+  "courseName": "xxx5",
+  "coursePrice": 150
  
 }
 ###
@@ -15,3 +15,14 @@ DELETE {{BaseAddress}}/api/v1/basket/item/{{CourseId}}
 Accept: application/json
 ###
 
+GET {{BaseAddress}}/api/v1/basket
+Accept: application/json
+###
+PUT {{BaseAddress}}/api/v1/basket/apply-discount-rate
+Accept : application/json
+Content-Type: application/json
+{
+  "coupon" : "asdfbc",
+  "rate" : 0.25
+ 
+}

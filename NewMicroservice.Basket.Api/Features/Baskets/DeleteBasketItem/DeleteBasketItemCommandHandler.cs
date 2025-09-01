@@ -19,7 +19,7 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.DeleteBasketItem
             {
                 return ServiceResult.ErrorAsNotFound();
             }
-            var currentBasket = JsonSerializer.Deserialize<BasketDto>(hasBasket);
+            var currentBasket = JsonSerializer.Deserialize<Data.Basket>(hasBasket);
             var existBasketItem = currentBasket!.Items.FirstOrDefault(x => x.Id == request.CourseId);
             if (existBasketItem is null)
             {

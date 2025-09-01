@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace NewMicroservice.Basket.Api.Features.Baskets.GetBasket
 {
-    public class GetBasketCommandHandler(IDistributedCache distributedCache, IIdentityService identityService) : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
+    public class GetBasketCommandHandler(IDistributedCache distributedCache, IIdentityService identityService, IMapper mapper) : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
     {
         public async Task<ServiceResult<BasketDto>> Handle(GetBasketQuery request, CancellationToken cancellationToken)
         {
@@ -16,9 +16,10 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.GetBasket
             var basketDto = new BasketDto(userId, new List<BasketItemDto>());
             if (basketData == null)
             {
-                return ServiceResult<BasketDto>.SuccessAsOk(basketDto);
+                return ServiceResult<BasketDto>.Error("Basket not found.", HttpStatusCode.NotFound);
             }
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basketData)!;
+            var basket = JsonSerializer.Deserialize<Data.Basket>(basketData)!;
+            basketDto = mapper.Map<BasketDto>(basket);
             return ServiceResult<BasketDto>.SuccessAsOk(basketDto);
 
         }
