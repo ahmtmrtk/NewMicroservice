@@ -7,6 +7,7 @@ using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Threading.Tasks;
+using NewMicroservice.Shared.Services;
 
 namespace NewMicroservice.Shared.Extensions
 {
@@ -18,6 +19,7 @@ namespace NewMicroservice.Shared.Extensions
             services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining(assembly));
             services.AddValidatorsFromAssemblyContaining(assembly);
             services.AddAutoMapper(assembly);
+            services.AddScoped<IIdentityService, IdentityServiceFake>();
 
 
 
