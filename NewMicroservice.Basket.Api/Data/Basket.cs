@@ -1,4 +1,6 @@
-﻿namespace NewMicroservice.Basket.Api.Data
+﻿using System.Text.Json.Serialization;
+
+namespace NewMicroservice.Basket.Api.Data
 {
     public class Basket
     {
@@ -16,9 +18,11 @@
         public Basket()
         {
         }
+        [JsonIgnore]
         public bool IsAppliedDiscount => DiscountRate > 0 && !string.IsNullOrEmpty(Coupon);
+        [JsonIgnore]
         public decimal TotalPrice => Items.Sum(item => item.Price);
-
+        [JsonIgnore]
         public decimal? TotalPriceByApplyDiscount
         {
             get

@@ -9,19 +9,17 @@ using System.Text.Json;
 
 namespace NewMicroservice.Basket.Api.Features.Baskets.AddBasketItem
 {
-    public class AddBasketItemCommandHandler(IDistributedCache cache, IIdentityService identityService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
+    public class AddBasketItemCommandHandler(IDistributedCache cache, IIdentityService identityService, BasketService basketService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
     {
         public async Task<ServiceResult> Handle(AddBasketItemCommand request, CancellationToken cancellationToken)
         {
-            Guid userId = identityService.GetUserId;
-            var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
-            var hasBasket = await cache.GetStringAsync(cacheKey, cancellationToken);
+            var hasBasket = await basketService.GetBasketFromCacheAsync(cancellationToken);
             Data.Basket? currentBasket;
             var newBasketItem = new BasketItem(request.CourseId, request.CourseName, request.ImageUrl, request.CoursePrice, null);
             if (string.IsNullOrEmpty(hasBasket))
             {
-                currentBasket = new Data.Basket(userId, [newBasketItem]);
-                await CreateCacheAsync(currentBasket, cacheKey, cancellationToken);
+                currentBasket = new Data.Basket(identityService.GetUserId, [newBasketItem]);
+                await basketService.CreateCacheAsync(currentBasket, cancellationToken);
                 return ServiceResult.SuccessAsNoContent();
             }
 
@@ -34,15 +32,12 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.AddBasketItem
             }
 
             currentBasket.Items.Add(newBasketItem);
+            currentBasket.ApplyAvaiableDiscount();
 
-
-            await CreateCacheAsync(currentBasket, cacheKey, cancellationToken);
+            await basketService.CreateCacheAsync(currentBasket, cancellationToken);
             return ServiceResult.SuccessAsNoContent();
         }
-        private async Task CreateCacheAsync(Data.Basket basket, string cacheKey, CancellationToken cancellationToken)
-        {
-            await cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(basket), cancellationToken);
-        }
+
     }
 }
 

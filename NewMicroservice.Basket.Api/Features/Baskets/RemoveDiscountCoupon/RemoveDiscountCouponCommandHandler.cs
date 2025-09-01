@@ -4,12 +4,13 @@ using NewMicroservice.Basket.Api.Const;
 using NewMicroservice.Shared.Services;
 using System.Text.Json;
 
-namespace NewMicroservice.Basket.Api.Features.Baskets.ApplyDiscountCoupon
+namespace NewMicroservice.Basket.Api.Features.Baskets.RemoveDiscountCoupon
 {
-    public class ApplyDiscountCouponCommandHandler(BasketService basketService) : IRequestHandler<ApplyDiscountCouponCommand, ServiceResult>
+    public class RemoveDiscountCouponCommandHandler(BasketService basketService) : IRequestHandler<RemoveDiscountCouponCommand, ServiceResult>
     {
-        public async Task<ServiceResult> Handle(ApplyDiscountCouponCommand request, CancellationToken cancellationToken)
+        public async Task<ServiceResult> Handle(RemoveDiscountCouponCommand request, CancellationToken cancellationToken)
         {
+
             var basketAsString = await basketService.GetBasketFromCacheAsync(cancellationToken);
             if (string.IsNullOrEmpty(basketAsString))
             {
@@ -20,7 +21,7 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.ApplyDiscountCoupon
             {
                 return ServiceResult.ErrorAsNotFound();
             }
-            basket!.ApplyDiscount(request.Rate, request.Coupon);
+            basket!.CancelDiscount();
             await basketService.CreateCacheAsync(basket, cancellationToken);
             return ServiceResult.SuccessAsNoContent();
         }

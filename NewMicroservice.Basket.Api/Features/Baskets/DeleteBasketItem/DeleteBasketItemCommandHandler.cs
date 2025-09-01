@@ -8,13 +8,12 @@ using System.Text.Json;
 
 namespace NewMicroservice.Basket.Api.Features.Baskets.DeleteBasketItem
 {
-    public class DeleteBasketItemCommandHandler(IDistributedCache distributedCache, IIdentityService identityService) : IRequestHandler<DeleteBasketItemCommand, ServiceResult>
+    public class DeleteBasketItemCommandHandler(BasketService basketService) : IRequestHandler<DeleteBasketItemCommand, ServiceResult>
     {
         public async Task<ServiceResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
         {
-            Guid userId = identityService.GetUserId;
-            var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
-            var hasBasket = await distributedCache.GetStringAsync(cacheKey, cancellationToken);
+
+            var hasBasket = await basketService.GetBasketFromCacheAsync(cancellationToken);
             if (string.IsNullOrEmpty(hasBasket))
             {
                 return ServiceResult.ErrorAsNotFound();
@@ -26,7 +25,7 @@ namespace NewMicroservice.Basket.Api.Features.Baskets.DeleteBasketItem
                 return ServiceResult.ErrorAsNotFound();
             }
             currentBasket.Items.Remove(existBasketItem);
-            await distributedCache.SetStringAsync(cacheKey, JsonSerializer.Serialize(currentBasket), cancellationToken);
+            await basketService.CreateCacheAsync(currentBasket, cancellationToken);
             return ServiceResult.SuccessAsNoContent();
         }
     }

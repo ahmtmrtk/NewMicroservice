@@ -4,12 +4,26 @@ namespace NewMicroservice.Basket.Api.Dto
 {
     public record BasketDto
     {
-        [JsonIgnore] public Guid UserId { get; set; }
         public List<BasketItemDto> Items { get; set; } = new List<BasketItemDto>();
+        public float? DiscountRate { get; set; }
+        public string? Coupon { get; set; }
+        [JsonIgnore]
+        public bool IsAppliedDiscount => DiscountRate > 0 && !string.IsNullOrEmpty(Coupon);
 
-        public BasketDto(Guid userId, List<BasketItemDto> items)
+        public decimal TotalPrice => Items.Sum(item => item.Price);
+
+        public decimal? TotalPriceByApplyDiscount
         {
-            UserId = userId;
+            get
+            {
+                if (!IsAppliedDiscount) return null;
+                return Items.Sum(item => item.PriceByApplyDiscountRate);
+            }
+        }
+
+        public BasketDto(List<BasketItemDto> items)
+        {
+
             Items = items;
         }
         public BasketDto()

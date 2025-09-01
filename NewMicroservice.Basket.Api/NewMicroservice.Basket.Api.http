@@ -5,8 +5,8 @@ Accept : application/json
 Content-Type: application/json
 {
   "courseId": "3fa85f64-5537-6562-b3fc-2c963f66afa6",
-  "courseName": "xxx5",
-  "coursePrice": 150
+  "courseName": "xxx8",
+  "coursePrice": 13
  
 }
 ###
@@ -18,7 +18,7 @@ Accept: application/json
 GET {{BaseAddress}}/api/v1/basket
 Accept: application/json
 ###
-PUT {{BaseAddress}}/api/v1/basket/apply-discount-rate
+PUT {{BaseAddress}}/api/v1/basket/apply-discount-coupon
 Accept : application/json
 Content-Type: application/json
 {
@@ -26,3 +26,6 @@ Content-Type: application/json
   "rate" : 0.25
  
 }
+###
+DELETE {{BaseAddress}}/api/v1/basket/remove-discount-coupon
+Accept: application/json
