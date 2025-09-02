@@ -1,0 +1,9 @@
+﻿global using NewMicroservice.File.Api;
+global using NewMicroservice.Shared.Extensions;
+global using UdemyNewMicroservice.Shared.Extensions;
+global using MediatR;
+global using NewMicroservice.Shared;
+global using NewMicroservice.Shared.Filters;
+global using System.Net;
+global using FluentValidation;
+global using AutoMapper;
