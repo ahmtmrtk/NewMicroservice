@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using NewMicroService.Order.Application.Contracts.Repositories;
 using NewMicroService.Order.Persistance;
+using NewMicroService.Order.Persistance.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 });
-
+builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
 
 
