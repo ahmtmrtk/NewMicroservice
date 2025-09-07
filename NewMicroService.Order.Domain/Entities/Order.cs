@@ -47,6 +47,20 @@ namespace NewMicroService.Order.Domain.Entities
 
             };
         }
+        public static Order CreateUnPaidOrder(Guid buyerId, float? discountRate)
+        {
+            return new Order()
+            {
+                Id = NewId.NextGuid(),
+                OrderCode = GenerateOrderCode(),
+                CreatedDate = DateTime.UtcNow,
+                BuyerId = buyerId,
+                TotalPrice = 0,
+                Status = OrderStatus.WaitingForPayment,
+                DiscountRate = discountRate,
+
+            };
+        }
 
         public void AddOrderItem(Guid productId, string productName, decimal unitPrice)
         {

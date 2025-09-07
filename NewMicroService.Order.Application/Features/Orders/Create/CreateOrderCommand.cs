@@ -3,7 +3,7 @@ using NewMicroservice.Shared;
 namespace NewMicroService.Order.Application.Features.Orders.Create
 {
 
-    public record CreateOrderCommand(float? DiscountRate, AddressDto Address, PaymentDto Payment, List<OrderItemDto> orderItems) :IRequestByServiceResult;
+    public record CreateOrderCommand(float? DiscountRate, AddressDto Address, PaymentDto Payment, List<OrderItemDto> OrderItems) : IRequestByServiceResult;
 
 
 
