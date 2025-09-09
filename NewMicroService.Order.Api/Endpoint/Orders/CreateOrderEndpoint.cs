@@ -18,7 +18,7 @@ namespace NewMicroService.Order.Api.Endpoint.Orders
             .MapToApiVersion(1.0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
-            .AddEndpointFilter<ValidationFilter<CreateOrderCommandValidator>>();
+            .AddEndpointFilter<ValidationFilter<CreateOrderCommand>>();
             return group;
         }
     }

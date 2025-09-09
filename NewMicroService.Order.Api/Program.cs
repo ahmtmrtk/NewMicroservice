@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using NewMicroservice.Shared.Extensions;
+using NewMicroService.Order.Api;
 using NewMicroService.Order.Api.Endpoint.Orders;
+using NewMicroService.Order.Application;
 using NewMicroService.Order.Application.Contracts.Repositories;
 using NewMicroService.Order.Application.Contracts.UnitOfWork;
 using NewMicroService.Order.Persistance;
@@ -21,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
+
 builder.Services.AddVersioningExt();
 
 

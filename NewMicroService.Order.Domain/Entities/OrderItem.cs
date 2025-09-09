@@ -16,7 +16,7 @@ namespace NewMicroService.Order.Domain.Entities
 
         public void SetItem(Guid productId, string productName, decimal unitPrice)
         {
-            if (string.IsNullOrEmpty(ProductName))
+            if (string.IsNullOrEmpty(productName))
             {
                 throw new ArgumentNullException(nameof(productName), "ProductName cannot be empty");
             }
