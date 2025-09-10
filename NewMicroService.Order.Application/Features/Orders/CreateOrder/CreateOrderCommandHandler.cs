@@ -5,7 +5,7 @@ using NewMicroService.Order.Application.Contracts.Repositories;
 using NewMicroService.Order.Application.Contracts.UnitOfWork;
 using NewMicroService.Order.Domain.Entities;
 
-namespace NewMicroService.Order.Application.Features.Orders.Create
+namespace NewMicroService.Order.Application.Features.Orders.CreateOrder
 {
     public class CreateOrderCommandHandler(IOrderRepository orderRepository, IIdentityService identityService, IUnitOfWork unitOfWork) : IRequestHandler<CreateOrderCommand, ServiceResult>
     {

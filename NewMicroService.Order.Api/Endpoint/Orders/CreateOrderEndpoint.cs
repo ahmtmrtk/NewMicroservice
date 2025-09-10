@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NewMicroservice.Shared.Extensions;
 using NewMicroservice.Shared.Filters;
-using NewMicroService.Order.Application.Features.Orders.Create;
+using NewMicroService.Order.Application.Features.Orders.CreateOrder;
 
 namespace NewMicroService.Order.Api.Endpoint.Orders
 {

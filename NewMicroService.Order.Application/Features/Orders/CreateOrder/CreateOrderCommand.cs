@@ -1,6 +1,6 @@
 using NewMicroservice.Shared;
 
-namespace NewMicroService.Order.Application.Features.Orders.Create
+namespace NewMicroService.Order.Application.Features.Orders.CreateOrder
 {
 
     public record CreateOrderCommand(float? DiscountRate, AddressDto Address, PaymentDto Payment, List<OrderItemDto> OrderItems) : IRequestByServiceResult;

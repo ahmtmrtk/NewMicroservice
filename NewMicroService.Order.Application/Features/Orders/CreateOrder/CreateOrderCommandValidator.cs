@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using NewMicroService.Order.Application.Features.Orders.Create;
+using NewMicroService.Order.Application.Features.Orders.CreateOrder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewMicroService.Order.Application.Features.Orders.Create
+namespace NewMicroService.Order.Application.Features.Orders.CreateOrder
 {
     public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {
