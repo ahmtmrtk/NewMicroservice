@@ -10,7 +10,8 @@ namespace NewMicroservice.File.Api.Features.File
         {
             app.MapGroup("api/v{version:apiVersion}/files").WithTags("files").WithApiVersionSet(apiVersionSet)
                 .UploadFileGroupItemEndpoint()
-                .DeleteFileGroupItemEndpoint();
+                .DeleteFileGroupItemEndpoint()
+                .RequireAuthorization();
         }
     }
 }

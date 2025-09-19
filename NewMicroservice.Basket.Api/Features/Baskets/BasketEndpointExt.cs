@@ -18,7 +18,8 @@ namespace NewMicroservice.Basket.Api.Features.Baskets
                 .DeleteBasketItemGroupItemEndpoint()
                 .GetBasketGroupItemEndpoint()
                 .ApplyDiscountCouponItemGroupItemEndpoint()
-                .RemoveDiscountCouponGroupItemEndpoint();
+                .RemoveDiscountCouponGroupItemEndpoint()
+                .RequireAuthorization();
         }
     }
 }

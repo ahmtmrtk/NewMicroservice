@@ -25,6 +25,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericReposito
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 builder.Services.AddVersioningExt();
 
@@ -38,6 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.Run();

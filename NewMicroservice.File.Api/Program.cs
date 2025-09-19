@@ -10,6 +10,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 builder.Services.AddVersioningExt();
@@ -27,7 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(); // This now works because of the added using directive
     app.MapOpenApi();
 }
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 

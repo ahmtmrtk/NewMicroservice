@@ -15,6 +15,7 @@ builder.Services.AddVersioningExt();
 builder.Services.AddOptionsExt();
 builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(DiscountAssembly));
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 
@@ -31,7 +32,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 app.AddCourseGroupEndpointExt(app.AddVersionSetExt());
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 

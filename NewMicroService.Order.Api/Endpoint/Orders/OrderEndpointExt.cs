@@ -6,7 +6,8 @@ namespace NewMicroService.Order.Api.Endpoint.Orders
     {
         public static void AddOrderGroupEndpointExt(this WebApplication app, ApiVersionSet apiVersionSet)
         {
-            app.MapGroup("api/v{version:apiVersion}/orders").WithTags("Orders").WithApiVersionSet(apiVersionSet).CreateOrderGroupItemEndpoint().GetOrdersGroupItemEndpoint();
+            app.MapGroup("api/v{version:apiVersion}/orders").WithTags("Orders").WithApiVersionSet(apiVersionSet).CreateOrderGroupItemEndpoint().GetOrdersGroupItemEndpoint()
+            .RequireAuthorization();
         }
     }
 }

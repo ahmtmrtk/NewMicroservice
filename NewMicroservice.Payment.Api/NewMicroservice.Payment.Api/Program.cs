@@ -16,6 +16,10 @@ builder.Services.AddVersioningExt();
 builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("payment-in-memory-db"); });
+
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
+
 var app = builder.Build();
 app.AddPaymentGroupEndpointExt(app.AddVersionSetExt());
 // Configure the HTTP request pipeline.
@@ -25,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapOpenApi();
 }
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

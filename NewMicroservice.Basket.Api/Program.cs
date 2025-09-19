@@ -14,6 +14,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddVersioningExt();
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -30,5 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(); // This now works because of the added using directive
     app.MapOpenApi();
 }
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.Run();
