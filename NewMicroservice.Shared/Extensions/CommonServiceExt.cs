@@ -19,7 +19,7 @@ namespace NewMicroservice.Shared.Extensions
             services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining(assembly));
             services.AddValidatorsFromAssemblyContaining(assembly);
             services.AddAutoMapper(assembly);
-            services.AddScoped<IIdentityService, IdentityServiceFake>();
+            services.AddScoped<IIdentityService, IdentityService>();
 
 
 

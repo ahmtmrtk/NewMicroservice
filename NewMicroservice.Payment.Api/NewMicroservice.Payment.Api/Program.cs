@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddVersioningExt();
 builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 
+
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("payment-in-memory-db"); });
 
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);

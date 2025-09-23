@@ -10,6 +10,7 @@ namespace NewMicroservice.Payment.Api.Feature.Payments.Create
     {
         public async Task<ServiceResult<Guid>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
+            
             var (isSuccess, errorMessage) = await ExternalPaymentProcessAsync(request.CardNumber,
                 request.CardHolderName,
                 request.CardExpirationDate, request.CardSecurityNumber, request.Amount);

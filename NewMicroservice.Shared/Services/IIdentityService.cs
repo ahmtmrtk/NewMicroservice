@@ -10,5 +10,6 @@ namespace NewMicroservice.Shared.Services
     {
         public Guid GetUserId { get; }
         public string Username { get; }
+        public List<string> Roles { get; }
     }
 }
