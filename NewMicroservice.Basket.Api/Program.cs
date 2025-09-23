@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection; // Ensure this is present
 using Microsoft.OpenApi.Models; // Ensure this is present
 using NewMicroservice.Basket.Api.Features.Baskets;
+using NewMicroservice.Bus;
 using NewMicroservice.Shared.Extensions;
 using Swashbuckle.AspNetCore.SwaggerUI; // Add this using directive
 using UdemyNewMicroservice.Shared.Extensions;
@@ -13,11 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddVersioningExt();
-builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
+builder.Services.AddVersioningExt();
+builder.Services.AddMassTransitExt(builder.Configuration);
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+builder.Services.AddScoped<BasketService>();
+
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");

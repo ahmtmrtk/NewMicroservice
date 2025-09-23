@@ -16,11 +16,11 @@ namespace NewMicroservice.Catalog.Api.Repositories
                 {
                     var categories = new List<Category>
                     {
-                        new(){Id = NewId.NextSequentialGuid(), Name = "Development"},
-                        new(){Id = NewId.NextSequentialGuid(), Name = "Business"},
-                        new(){Id = NewId.NextSequentialGuid(), Name = "IT & Software"},
-                        new(){Id = NewId.NextSequentialGuid(), Name = "Office Productivity"},
-                        new(){Id = NewId.NextSequentialGuid(), Name = "Personal Development"},
+                        new(){Id = Guid.CreateVersion7(), Name = "Development"},
+                        new(){Id = Guid.CreateVersion7(), Name = "Business"},
+                        new(){Id = Guid.CreateVersion7(), Name = "IT & Software"},
+                        new(){Id = Guid.CreateVersion7(), Name = "Office Productivity"},
+                        new(){Id = Guid.CreateVersion7(), Name = "Personal Development"},
 
                     };
                     await dbContext.Categories.AddRangeAsync(categories);
@@ -28,13 +28,13 @@ namespace NewMicroservice.Catalog.Api.Repositories
                 }
                 if (!dbContext.Courses.Any())
                 {
-                    var randomUserId = NewId.NextSequentialGuid();
+                    var randomUserId = Guid.CreateVersion7();
                     var categories = await dbContext.Categories.FirstAsync();
                     var courses = new List<Course>
                     {
                         new()
                         {
-                            Id = NewId.NextSequentialGuid(),
+                            Id = Guid.CreateVersion7(),
                             Name = "Learn ASP.NET Core 7",
                             Description = "ASP.NET Core 7 is a cross-platform, high-performance framework for building modern, cloud-based, Internet-connected applications.",
                             Price = 49.99M,
@@ -46,7 +46,7 @@ namespace NewMicroservice.Catalog.Api.Repositories
                         },
                         new()
                         {
-                            Id = NewId.NextSequentialGuid(),
+                            Id = Guid.CreateVersion7(),
                             Name = "Mastering Entity Framework Core 7",
                             Description = "Entity Framework Core 7 is a lightweight, extensible, and cross-platform version of the popular Entity Framework data access technology.",
                             Price = 39.99M,
@@ -58,7 +58,7 @@ namespace NewMicroservice.Catalog.Api.Repositories
                         },
                         new()
                         {
-                            Id = NewId.NextSequentialGuid(),
+                            Id = Guid.CreateVersion7(),
                             Name = "C# Programming for Beginners",
                             Description = "C# is a modern, object-oriented programming language developed by Microsoft that is widely used for building Windows applications, web applications, and games.",
                             Price = 29.99M,

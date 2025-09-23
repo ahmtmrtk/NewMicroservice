@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MassTransit;
 
 namespace NewMicroService.Order.Domain.Entities
 {
@@ -36,7 +35,7 @@ namespace NewMicroService.Order.Domain.Entities
         {
             return new Order()
             {
-                Id = NewId.NextGuid(),
+                Id = Guid.CreateVersion7(),
                 OrderCode = GenerateOrderCode(),
                 CreatedDate = DateTime.UtcNow,
                 BuyerId = buyerId,
@@ -51,7 +50,7 @@ namespace NewMicroService.Order.Domain.Entities
         {
             return new Order()
             {
-                Id = NewId.NextGuid(),
+                Id = Guid.CreateVersion7(),
                 OrderCode = GenerateOrderCode(),
                 CreatedDate = DateTime.UtcNow,
                 BuyerId = buyerId,

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using NewMicroservice.Bus;
 using NewMicroservice.Catalog.Api;
 using NewMicroservice.Catalog.Api.Features.Categories;
 using NewMicroservice.Catalog.Api.Features.Categories.Create;
@@ -21,6 +22,7 @@ builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(CategoryAssembly));
 builder.Services.AddVersioningExt();
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+builder.Services.AddMassTransitExt(builder.Configuration);
 
 var app = builder.Build();
 

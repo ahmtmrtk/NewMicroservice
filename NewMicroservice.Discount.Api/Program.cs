@@ -1,3 +1,4 @@
+using NewMicroservice.Bus;
 using NewMicroservice.Discount.Api;
 using NewMicroservice.Discount.Api.Features.Discounts;
 using NewMicroservice.Discount.Api.Options;
@@ -16,7 +17,7 @@ builder.Services.AddOptionsExt();
 builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(DiscountAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-
+builder.Services.AddMassTransitExt(builder.Configuration);
 
 
 

@@ -20,7 +20,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Create
             }
             var course = mapper.Map<Course>(request);
             course.CreatedDate = DateTime.Now;
-            course.Id = NewId.NextSequentialGuid();
+            course.Id = Guid.CreateVersion7();
             course.Feature = new Feature
             {
                 Duration = 10,

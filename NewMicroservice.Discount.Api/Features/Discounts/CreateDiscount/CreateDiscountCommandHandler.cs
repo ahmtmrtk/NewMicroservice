@@ -12,7 +12,7 @@ namespace NewMicroservice.Discount.Api.Features.Discounts.CreateDiscount
                 return ServiceResult.Error("Discount already exists for this user and code", HttpStatusCode.Conflict);
             var discount = new Discount
             {
-                Id = NewId.NextSequentialGuid(),
+                Id = Guid.CreateVersion7(),
                 Code = request.Code,
                 Rate = request.Rate,
                 UserId = request.UserId,

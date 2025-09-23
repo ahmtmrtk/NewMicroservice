@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NewMicroservice.Bus;
 using NewMicroservice.Payment.Api;
 using NewMicroservice.Payment.Api.Feature.Payments;
 using NewMicroservice.Payment.Api.Repositories;
@@ -19,7 +20,7 @@ builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("payment-in-memory-db"); });
 
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-
+builder.Services.AddMassTransitExt(builder.Configuration);
 
 var app = builder.Build();
 app.AddPaymentGroupEndpointExt(app.AddVersionSetExt());

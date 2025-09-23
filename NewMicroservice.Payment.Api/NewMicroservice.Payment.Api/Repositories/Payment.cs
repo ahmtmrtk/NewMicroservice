@@ -19,7 +19,7 @@ namespace NewMicroservice.Payment.Api.Repositories
 
         public void Create(Guid userId, string orderCode, decimal amount)
         {
-            Id = NewId.NextSequentialGuid();
+            Id = Guid.CreateVersion7();
             Created = DateTime.UtcNow;
             UserId = userId;
             OrderCode = orderCode;

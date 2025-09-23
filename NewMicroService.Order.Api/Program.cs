@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NewMicroservice.Bus;
 using NewMicroservice.Shared.Extensions;
 using NewMicroService.Order.Api;
 using NewMicroService.Order.Api.Endpoint.Orders;
@@ -28,7 +29,7 @@ builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 builder.Services.AddVersioningExt();
-
+builder.Services.AddMassTransitExt(builder.Configuration);
 
 var app = builder.Build();
 

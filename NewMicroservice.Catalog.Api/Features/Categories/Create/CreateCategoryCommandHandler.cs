@@ -16,7 +16,7 @@ namespace NewMicroservice.Catalog.Api.Features.Categories.Create
 
             var category = new Category
             {
-                Id = NewId.NextSequentialGuid(),
+                Id = Guid.CreateVersion7(),
                 Name = request.Name
             };
             await context.Categories.AddAsync(category, cancellationToken);
