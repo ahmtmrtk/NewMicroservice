@@ -1,4 +1,5 @@
-﻿using NewMicroservice.Catalog.Api.Features.Categories.Create;
+﻿using Microsoft.AspNetCore.Mvc;
+using NewMicroservice.Catalog.Api.Features.Categories.Create;
 
 namespace NewMicroservice.Catalog.Api.Features.Courses.Create
 {
@@ -6,7 +7,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Create
     {
         public static RouteGroupBuilder CreateCourseGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapPost("/", async (CreateCourseCommand command, IMediator mediator) =>
+            group.MapPost("/", async ([FromForm] CreateCourseCommand command, IMediator mediator) =>
             {
                 return (await mediator.Send(command)).ToGenericResult();
 

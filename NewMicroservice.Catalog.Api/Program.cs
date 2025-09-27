@@ -21,8 +21,9 @@ builder.Services.AddOptionsExt();
 builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(CategoryAssembly));
 builder.Services.AddVersioningExt();
+builder.Services.AddMasstransitExt(builder.Configuration);
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-builder.Services.AddMassTransitExt(builder.Configuration);
+
 
 var app = builder.Build();
 

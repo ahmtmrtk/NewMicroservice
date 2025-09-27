@@ -1,13 +1,15 @@
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NewMicroservice.Bus;
+using NewMicroservice.Bus.Commands;
 
-namespace NewMicroservice.Bus
+namespace NewMicroservice.File.Api
 {
     public static class MassTransitConfigurationExt
     {
         
-        public static IServiceCollection AddCommonMassTransitExt(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMassTransitExt(this IServiceCollection services, IConfiguration configuration)
         {
             var busOptions = configuration.GetSection(nameof(BusOptions)).Get<BusOptions>()!;
 
@@ -15,6 +17,7 @@ namespace NewMicroservice.Bus
 
             services.AddMassTransit(configure => 
             {
+                configure.AddConsumer<UploadCoursePictureCommandCounsumer>();
                 configure.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(new Uri($"rabbitmq://{busOptions.Address}:{busOptions.Port}"), host =>
@@ -22,7 +25,11 @@ namespace NewMicroservice.Bus
                         host.Username(busOptions.UserName);
                         host.Password(busOptions.Password);
                     });
-                    cfg.ConfigureEndpoints(context);
+                    //cfg.ConfigureEndpoints(context);
+                    cfg.ReceiveEndpoint("file-microservice-upload-course-picture-command", e =>
+                    {
+                        e.ConfigureConsumer<UploadCoursePictureCommandCounsumer>(context);
+                    });
                 });
             });
             return services;

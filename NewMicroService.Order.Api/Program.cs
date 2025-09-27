@@ -29,7 +29,7 @@ builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 builder.Services.AddVersioningExt();
-builder.Services.AddMassTransitExt(builder.Configuration);
+builder.Services.AddCommonMassTransitExt(builder.Configuration);
 
 var app = builder.Build();
 
