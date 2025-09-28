@@ -20,8 +20,9 @@ namespace NewMicroservice.Shared.Extensions
         public static IServiceCollection AddAuthenticationAndAuthorizationExt(this IServiceCollection services, IConfiguration configuration)
         {
             var identityOption = configuration.GetSection(nameof(IdentityOption)).Get<IdentityOption>();
-            services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
 
                 options.Authority = identityOption.Address;
                 options.Audience = identityOption.Audience;
@@ -34,11 +35,11 @@ namespace NewMicroservice.Shared.Extensions
                     ValidateIssuer = true,
                     RoleClaimType = "roles",
                     NameClaimType = "preferred_username"
-                    
+
                 };
-            });
-            services.AddAuthentication().AddJwtBearer("ClientCredentialSchema", options =>
-            {
+            })
+    .AddJwtBearer("ClientCredentialSchema", options =>
+    {
 
                 options.Authority = identityOption.Address;
                 options.Audience = identityOption.Audience;
@@ -49,7 +50,7 @@ namespace NewMicroservice.Shared.Extensions
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
                     ValidateIssuer = true,
-                    
+
                 };
             });
 
