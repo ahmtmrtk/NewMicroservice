@@ -17,9 +17,7 @@ builder.Services.AddOptionsExt();
 builder.Services.AddRepositoryExt();
 builder.Services.AddCommonServiceExt(typeof(DiscountAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-builder.Services.AddCommonMassTransitExt(builder.Configuration);
-
-
+builder.Services.AddMasstransitExt(builder.Configuration);
 
 
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection; // Ensure this is present
 using Microsoft.OpenApi.Models; // Ensure this is present
+using NewMicroservice.Basket.Api;
 using NewMicroservice.Basket.Api.Features.Baskets;
 using NewMicroservice.Bus;
 using NewMicroservice.Shared.Extensions;
@@ -17,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
 builder.Services.AddVersioningExt();
-builder.Services.AddCommonMassTransitExt(builder.Configuration);
+builder.Services.AddMasstransitExt(builder.Configuration);
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 builder.Services.AddScoped<BasketService>();
 

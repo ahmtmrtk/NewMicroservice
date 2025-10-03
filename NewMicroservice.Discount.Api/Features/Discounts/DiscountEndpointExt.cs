@@ -9,7 +9,7 @@ namespace NewMicroservice.Discount.Api.Features.Discounts
         public static void AddCourseGroupEndpointExt(this WebApplication app, ApiVersionSet apiVersionSet)
         {
             app.MapGroup("api/v{version:apiVersion}/Discount").WithTags("Discount").WithApiVersionSet(apiVersionSet).CreateDiscountGroupItemEndpoint().GetByCodeDiscountGroupItemEndpoint()
-            .RequireAuthorization();
+            .RequireAuthorization("Password");
         }
     }
 }
