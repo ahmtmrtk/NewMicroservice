@@ -1,14 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using NewMicroservice.Bus;
 using NewMicroservice.Shared.Extensions;
+using NewMicroservice.Shared.Options;
 using NewMicroService.Order.Api;
 using NewMicroService.Order.Api.Endpoint.Orders;
 using NewMicroService.Order.Application;
+using NewMicroService.Order.Application.Contracts.Refit;
+using NewMicroService.Order.Application.Contracts.Refit.Payment;
 using NewMicroService.Order.Application.Contracts.Repositories;
 using NewMicroService.Order.Application.Contracts.UnitOfWork;
 using NewMicroService.Order.Persistance;
 using NewMicroService.Order.Persistance.Repositories;
 using NewMicroService.Order.Persistance.UnitOfWork;
+using Refit;
 using UdemyNewMicroservice.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +31,9 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
+builder.Services.AddRefitConfigurationExt(builder.Configuration);
+
 
 builder.Services.AddVersioningExt();
 builder.Services.AddCommonMassTransitExt(builder.Configuration);

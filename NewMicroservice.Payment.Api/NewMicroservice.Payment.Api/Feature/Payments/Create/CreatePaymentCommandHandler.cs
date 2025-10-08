@@ -6,9 +6,9 @@ using NewMicroservice.Shared.Services;
 namespace NewMicroservice.Payment.Api.Feature.Payments.Create
 {
     public class CreatePaymentCommandHandler(AppDbContext appDbContext, IIdentityService idenIdentityService)
-       : IRequestHandler<CreatePaymentCommand, ServiceResult<Guid>>
+       : IRequestHandler<CreatePaymentCommand, ServiceResult<CreatePaymentResponse>>
     {
-        public async Task<ServiceResult<Guid>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<ServiceResult<CreatePaymentResponse>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
             
             var (isSuccess, errorMessage) = await ExternalPaymentProcessAsync(request.CardNumber,
@@ -18,7 +18,7 @@ namespace NewMicroservice.Payment.Api.Feature.Payments.Create
 
             if (!isSuccess)
             {
-                return ServiceResult<Guid>.Error("Payment Failed", errorMessage!, System.Net.HttpStatusCode.BadRequest);
+                return ServiceResult<CreatePaymentResponse>.Error("Payment Failed", errorMessage!, System.Net.HttpStatusCode.BadRequest);
             }
 
 
@@ -29,7 +29,7 @@ namespace NewMicroservice.Payment.Api.Feature.Payments.Create
             appDbContext.Payments.Add(newPayment);
             await appDbContext.SaveChangesAsync(cancellationToken);
 
-            return ServiceResult<Guid>.SuccessAsOk(newPayment.Id);
+            return ServiceResult<CreatePaymentResponse>.SuccessAsOk(new CreatePaymentResponse( newPayment.Id,true, null));
         }
 
 

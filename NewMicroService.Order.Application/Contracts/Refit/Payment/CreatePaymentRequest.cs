@@ -1,9 +1,8 @@
-﻿using NewMicroservice.Shared;
+using NewMicroservice.Shared;
 
-namespace NewMicroservice.Payment.Api.Feature.Payments.Create
+namespace NewMicroservice.Order.Application.Contracts.Refit.Payment
 {
-    public record CreatePaymentCommand(
-        string OrderCode,
+    public record CreatePaymentRequest(string OrderCode,
         string CardNumber,
         string CardHolderName,
         string CardExpirationDate,
