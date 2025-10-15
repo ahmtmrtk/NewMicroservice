@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NewMicroservice.Bus;
+using NewMicroservice.Order.Application.BackgroundServices;
 using NewMicroservice.Shared.Extensions;
 using NewMicroservice.Shared.Options;
 using NewMicroService.Order.Api;
@@ -33,7 +34,7 @@ builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 builder.Services.AddRefitConfigurationExt(builder.Configuration);
-
+builder.Services.AddHostedService<CheckPaymentStatusOrderBackgroundService>();
 
 builder.Services.AddVersioningExt();
 builder.Services.AddCommonMassTransitExt(builder.Configuration);

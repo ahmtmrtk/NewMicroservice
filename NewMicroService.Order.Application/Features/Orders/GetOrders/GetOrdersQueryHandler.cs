@@ -16,7 +16,7 @@ namespace NewMicroService.Order.Application.Features.Orders.GetOrders
     {
         public async Task<ServiceResult<List<GetOrdersResponse>>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await orderRepository.GetOrderByUserName(identityService.GetUserId);
+            var orders = await orderRepository.GetOrderByBuyerId(identityService.GetUserId);
             if (orders == null || !orders.Any())
                 return ServiceResult<List<GetOrdersResponse>>.SuccessAsOk(new List<GetOrdersResponse>());
 
