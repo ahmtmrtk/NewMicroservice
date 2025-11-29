@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using NewMicroservice.Web.Extensions;
 using NewMicroservice.Web.Pages.Auth.SignUp;
+using NewMicroservice.Web.Services;
+using UdemyNewMicroservice.Web.Pages.Auth.SignIn;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +10,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddMvc(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddOptionsExt();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<SignUpService>();
+builder.Services.AddHttpClient<SignInService>();
+builder.Services.AddSingleton<TokenService>();
+
+
+builder.Services.AddAuthentication(configureOptions =>
+{
+    configureOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    configureOptions.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = "/Auth/SignIn";
+        options.ExpireTimeSpan = TimeSpan.FromDays(60);
+        options.Cookie.Name = "NewMicroserviceAuthCookie";
+        options.AccessDeniedPath = "/Auth/AccessDenided";
+    });
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
@@ -20,6 +43,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
