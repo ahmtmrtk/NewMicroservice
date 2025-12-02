@@ -1,6 +1,6 @@
 ﻿namespace NewMicroservice.Web.Options
 {
-    public class IdentityOptions
+    public class IdentityOption
     {
         public required string Address { get; set; }
         public required string BaseAddress { get; set; }

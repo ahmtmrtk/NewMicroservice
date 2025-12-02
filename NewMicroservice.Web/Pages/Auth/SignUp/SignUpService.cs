@@ -7,12 +7,12 @@ using System.Net;
 namespace NewMicroservice.Web.Pages.Auth.SignUp
 {
     public record KeycloakErrorResponse(string ErrorMessage);
-    public class SignUpService(IdentityOptions identityOptions, HttpClient httpClient, ILogger<SignUpService> logger)
+    public class SignUpService(IdentityOption identityOption, HttpClient httpClient, ILogger<SignUpService> logger)
     {
         public async Task<ServiceResult> CreateAccount(SignUpViewModel model)
         {
             var token = await GetClientCredentialTokenAsAdmin();
-            var address = $"{identityOptions.BaseAddress}/admin/realms/newTenant/users";
+            var address = $"{identityOption.BaseAddress}/admin/realms/newTenant/users";
             httpClient.SetBearerToken(token);
             var userCreateRequest = CreateUserCreateRequest(model);
 
@@ -46,10 +46,10 @@ namespace NewMicroservice.Web.Pages.Auth.SignUp
         {
             var discoveryRequest = new DiscoveryDocumentRequest()
             {
-                Address = identityOptions.Address,
+                Address = identityOption.Address,
                 Policy = { RequireHttps = false }
             };
-            httpClient.BaseAddress = new Uri(identityOptions.Address);
+            httpClient.BaseAddress = new Uri(identityOption.Address);
             var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
             if (discoveryResponse.IsError)
             {
@@ -58,8 +58,8 @@ namespace NewMicroservice.Web.Pages.Auth.SignUp
             var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = discoveryResponse.TokenEndpoint,
-                ClientId = identityOptions.Admin.ClientId,
-                ClientSecret = identityOptions.Admin.ClientSecret,
+                ClientId = identityOption.Admin.ClientId,
+                ClientSecret = identityOption.Admin.ClientSecret,
             });
 
             if (tokenResponse.IsError)

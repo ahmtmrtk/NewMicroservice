@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using NewMicroservice.Web.DeletgateHandlers;
 using NewMicroservice.Web.Extensions;
+using NewMicroservice.Web.Options;
 using NewMicroservice.Web.Pages.Auth.SignUp;
 using NewMicroservice.Web.Services;
+using NewMicroservice.Web.Services.Refit;
+using Refit;
 using UdemyNewMicroservice.Web.Pages.Auth.SignIn;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +18,17 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<SignUpService>();
 builder.Services.AddHttpClient<SignInService>();
-builder.Services.AddSingleton<TokenService>();
+builder.Services.AddHttpClient<TokenService>();
+builder.Services.AddScoped<CatalogService>();
+builder.Services.AddScoped<AuthenticatedHttpClientHandler>();
+builder.Services.AddScoped<ClientAuthenticatedHttpClientHandler>();
 
+builder.Services.AddRefitClient<ICatalogRefitService>().ConfigureHttpClient(configure =>
+{
+    var microserviceOption = builder.Configuration.GetSection(nameof(MicroserviceOption)).Get<MicroserviceOption>();
+    configure.BaseAddress = new Uri(microserviceOption!.CatalogMicroservice.BaseUrl);
+}).AddHttpMessageHandler<AuthenticatedHttpClientHandler>()
+    .AddHttpMessageHandler<ClientAuthenticatedHttpClientHandler>();
 
 builder.Services.AddAuthentication(configureOptions =>
 {

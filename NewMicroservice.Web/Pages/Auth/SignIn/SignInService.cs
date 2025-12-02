@@ -7,7 +7,7 @@ using NewMicroservice.Web.Services;
 using System.Security.Claims;
 namespace UdemyNewMicroservice.Web.Pages.Auth.SignIn
 {
-    public class SignInService(IHttpContextAccessor httpContextAccessor, TokenService tokenService, IdentityOptions identityOption, HttpClient client, ILogger<SignInService> logger)
+    public class SignInService(IHttpContextAccessor httpContextAccessor, TokenService tokenService, IdentityOption identityOption, HttpClient client, ILogger<SignInService> logger)
     {
         public async Task<ServiceResult> AuthenticateAsync(SignInViewModel signInViewModel)
         {
