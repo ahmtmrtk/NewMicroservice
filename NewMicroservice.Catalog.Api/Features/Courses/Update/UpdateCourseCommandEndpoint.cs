@@ -13,7 +13,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Update
             }).WithName("UpdateCourse")
             .Produces<Guid>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
-            .AddEndpointFilter<ValidationFilter<UpdateCourseCommand>>();
+            .AddEndpointFilter<ValidationFilter<UpdateCourseCommand>>().RequireAuthorization(policyNames: "InstructorPolicy");
             return group;
         }
     }

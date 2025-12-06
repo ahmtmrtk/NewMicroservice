@@ -1,6 +1,6 @@
 namespace NewMicroservice.Shared.Options
 {
-    public class AddressUrlOptions
+    public class AddressUrlOption
     {
         public string PaymentUrl { get; set; }
     }

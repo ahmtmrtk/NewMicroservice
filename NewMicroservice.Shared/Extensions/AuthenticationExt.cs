@@ -24,40 +24,49 @@ namespace NewMicroservice.Shared.Extensions
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
 
-                options.Authority = identityOption.Address;
-                options.Audience = identityOption.Audience;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    ValidateIssuer = true,
-                    RoleClaimType = "roles",
-                    NameClaimType = "preferred_username"
+        options.Authority = identityOption.Address;
+        options.Audience = identityOption.Audience;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidateIssuer = true,
+            RoleClaimType = ClaimTypes.Role,
+            NameClaimType = ClaimTypes.NameIdentifier
 
-                };
-            })
+        };
+    })
     .AddJwtBearer("ClientCredentialSchema", options =>
     {
 
-                options.Authority = identityOption.Address;
-                options.Audience = identityOption.Audience;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    ValidateIssuer = true,
+        options.Authority = identityOption.Address;
+        options.Audience = identityOption.Audience;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidateIssuer = true,
 
-                };
-            });
+        };
+    });
 
             services.AddAuthorization(options =>
             {
 
 
+                options.AddPolicy("InstructorPolicy", policy =>
+                {
+
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim(ClaimTypes.Email);
+                    policy.RequireRole("instructor");
+
+                });
                 options.AddPolicy("Password", policy =>
                 {
 
@@ -66,13 +75,12 @@ namespace NewMicroservice.Shared.Extensions
                     policy.RequireClaim(ClaimTypes.Email);
 
                 });
-
                 options.AddPolicy("ClientCredential", policy =>
                 {
 
                     policy.AuthenticationSchemes.Add("ClientCredentialSchema");
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("client_id");
+
                 });
 
 

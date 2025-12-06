@@ -32,7 +32,7 @@ namespace NewMicroService.Order.Application.Contracts.Refit
 
             services.AddRefitClient<IPaymentService>().ConfigureHttpClient(configure =>
                 {
-                    var addressUrlOption = configuration.GetSection(nameof(AddressUrlOptions)).Get<AddressUrlOptions>();
+                    var addressUrlOption = configuration.GetSection(nameof(AddressUrlOption)).Get<AddressUrlOption>();
 
 
                     configure.BaseAddress = new Uri(addressUrlOption!.PaymentUrl);

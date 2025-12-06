@@ -1,4 +1,4 @@
-@BaseAddress = http://localhost:5184
+@BaseAddress = http://localhost:5280
 @CategoryId = 08dde3ad-0515-11f2-0005-9a3c7a000000
 @CourseId = 08dde421-f478-3bcf-0250-f272b6050000
 GET {{BaseAddress}}/api/v1/categories
