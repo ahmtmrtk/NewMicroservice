@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace NewMicroservice.Web.Services.Refit
 {
-    public class CatalogService(ICatalogRefitService catalogRefitService, ILogger<CatalogService> logger)
+    public class CatalogService(ICatalogRefitService catalogRefitService, ILogger<CatalogService> logger, UserService userService)
     {
 
         public async Task<ServiceResult<List<CategoryViewModel>>> GetCategoriesAsync()
@@ -33,7 +33,7 @@ namespace NewMicroservice.Web.Services.Refit
             await using var stream = createCourseViewModel.PictureFormFile?.OpenReadStream();
             if (createCourseViewModel.PictureFormFile is not null && createCourseViewModel.PictureFormFile.Length > 0)
             {
-                
+
                 pictureStreamPart = new StreamPart(stream!, createCourseViewModel.PictureFormFile.FileName, createCourseViewModel.PictureFormFile.ContentType);
             }
 
@@ -53,6 +53,47 @@ namespace NewMicroservice.Web.Services.Refit
 
         }
 
+        public async Task<ServiceResult<List<CourseViewModel>>> GetCoursesByUserId()
+        {
+
+            var course = await catalogRefitService.GetCoursesByUserId(userService.UserId);
+
+            if (!course.IsSuccessStatusCode)
+            {
+                var problemDetails = JsonSerializer.Deserialize<Microsoft.AspNetCore.Mvc.ProblemDetails>(course.Error.Content!);
+                logger.LogError("Error occurred while fetching courses for user with ID: {UserId}", userService.UserId);
+                return ServiceResult<List<CourseViewModel>>.Error("Fail to retrieve courses. Please try again later");
+
+            }
+            else
+            {
+                var courses = course!.Content!
+                    .Select(c => new CourseViewModel
+                    (
+                        c.Id,
+                        c.Name,
+                        c.Description,
+                        c.Price,
+                        c.ImageUrl,
+                        c.Category.Name,
+                        c.Feature.Duration,
+                        c.Feature.Rating
+                    ))
+                    .ToList();
+                return ServiceResult<List<CourseViewModel>>.Success(courses);
+            }
+        }
+        public async Task<ServiceResult> DeleteCourse(Guid courseId)
+        {
+            var response = await catalogRefitService.DeleteCourseAsync(courseId);
+            if (!response.IsSuccessStatusCode)
+            {
+                var problemDetails = JsonSerializer.Deserialize<Microsoft.AspNetCore.Mvc.ProblemDetails>(response.Error.Content!);
+                logger.LogError("Error occurred while deleting a course");
+                return ServiceResult.Error("Fail to delete the course. Please try again later");
+            }
+            return ServiceResult.Success();
+        }
     }
 }
 

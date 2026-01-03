@@ -9,7 +9,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.GetAllByUser
             routeGroupBuilder.MapGet("/user/{userId:guid}", async (IMediator mediator, Guid userId) => (await mediator.Send(new GetAllCourseByUserQuery(userId))).ToGenericResult())
                 .WithName("GetAllCourseByUser")
                 .MapToApiVersion(1.0)
-                .Produces<List<CourseDto>>(StatusCodes.Status200OK);
+                .Produces<List<CourseDto>>(StatusCodes.Status200OK).RequireAuthorization(policyNames: "InstructorPolicy"); ;
             return routeGroupBuilder;
         }
     }

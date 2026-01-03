@@ -1,10 +1,11 @@
 ﻿
 using NewMicroservice.Bus.Commands;
 using NewMicroservice.Catalog.Api.Repositories;
+using NewMicroservice.Shared.Services;
 
 namespace NewMicroservice.Catalog.Api.Features.Courses.Create
 {
-    public class CreateCourseCommandHandler(AppDbContext context, IMapper mapper,IPublishEndpoint publishEndpoint) : IRequestHandler<CreateCourseCommand, ServiceResult<Guid>>
+    public class CreateCourseCommandHandler(AppDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint, IIdentityService identityService) : IRequestHandler<CreateCourseCommand, ServiceResult<Guid>>
     {
         public async Task<ServiceResult<Guid>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
         {
@@ -21,6 +22,7 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Create
             }
             var course = mapper.Map<Course>(request);
             course.CreatedDate = DateTime.Now;
+            course.UserId = identityService.GetUserId;
             course.Id = Guid.CreateVersion7();
             course.Feature = new Feature
             {
@@ -33,13 +35,16 @@ namespace NewMicroservice.Catalog.Api.Features.Courses.Create
 
             if (request.Picture is not null)
             {
-                using (var stream = new MemoryStream())
-                {
-                    await request.Picture.CopyToAsync(stream, cancellationToken);
-                    var pictureAsByteArray = stream.ToArray();
-                    UploadCoursePictureCommand uploadCoursePictureCommand = new(course.Id, pictureAsByteArray,request.Picture.FileName);
-                    await publishEndpoint.Publish(uploadCoursePictureCommand, cancellationToken);
-                }
+                using var memoryStream = new MemoryStream();
+                await request.Picture.CopyToAsync(memoryStream, cancellationToken);
+
+                var PictureAsByteArray = memoryStream.ToArray();
+
+
+                var uploadCoursePictureCommand =
+                    new UploadCoursePictureCommand(course.Id, PictureAsByteArray, request.Picture.FileName);
+
+                await publishEndpoint.Publish(uploadCoursePictureCommand, cancellationToken);
             }
 
 

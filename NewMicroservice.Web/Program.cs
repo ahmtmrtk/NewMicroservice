@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using NewMicroservice.Web.DeletgateHandlers;
+using NewMicroservice.Web.ExceptionHandlers;
 using NewMicroservice.Web.Extensions;
 using NewMicroservice.Web.Options;
 using NewMicroservice.Web.Pages.Auth.SignUp;
@@ -18,10 +19,14 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient<SignUpService>();
 builder.Services.AddHttpClient<SignInService>();
-builder.Services.AddHttpClient<TokenService>();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<CatalogService>();
+builder.Services.AddScoped<UserService>();
+
+
 builder.Services.AddScoped<AuthenticatedHttpClientHandler>();
 builder.Services.AddScoped<ClientAuthenticatedHttpClientHandler>();
+builder.Services.AddExceptionHandler<UnauthorizedAccessExceptionHandler>();
 
 builder.Services.AddRefitClient<ICatalogRefitService>().ConfigureHttpClient(configure =>
 {

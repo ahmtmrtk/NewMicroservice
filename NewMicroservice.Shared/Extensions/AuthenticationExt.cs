@@ -1,93 +1,80 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using NewMicroservice.Shared.Options;
+using NewMicroservice.Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using System.Threading.Tasks;
-using NewMicroservice.Shared.Services;
-using Microsoft.Extensions.Configuration;
-using NewMicroservice.Shared.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NewMicroservice.Shared.Extensions
 {
     public static class AuthenticationExt
     {
-        public static IServiceCollection AddAuthenticationAndAuthorizationExt(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthenticationAndAuthorizationExt(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            var identityOption = configuration.GetSection(nameof(IdentityOption)).Get<IdentityOption>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-    {
+            var identityOptions = configuration.GetSection(nameof(IdentityOption)).Get<IdentityOption>();
 
-        options.Authority = identityOption.Address;
-        options.Audience = identityOption.Audience;
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            ValidateIssuer = true,
-            RoleClaimType = ClaimTypes.Role,
-            NameClaimType = ClaimTypes.NameIdentifier
 
-        };
-    })
-    .AddJwtBearer("ClientCredentialSchema", options =>
-    {
+            services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.Authority = identityOptions.Address;
+                options.Audience = identityOptions.Audience;
+                options.RequireHttpsMetadata = false;
 
-        options.Authority = identityOption.Address;
-        options.Audience = identityOption.Audience;
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            ValidateIssuer = true,
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidateIssuer = true,
+                    RoleClaimType = ClaimTypes.Role,
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            }).AddJwtBearer("ClientCredentialSchema", options =>
+            {
+                options.Authority = identityOptions.Address;
+                options.Audience = identityOptions.Audience;
+                options.RequireHttpsMetadata = false;
 
-        };
-    });
-
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidateIssuer = true
+                };
+            });
             services.AddAuthorization(options =>
             {
-
-
-                options.AddPolicy("InstructorPolicy", policy =>
-                {
-
-                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim(ClaimTypes.Email);
-                    policy.RequireRole("instructor");
-
-                });
                 options.AddPolicy("Password", policy =>
                 {
-
                     policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                     policy.RequireAuthenticatedUser();
                     policy.RequireClaim(ClaimTypes.Email);
-
                 });
+
                 options.AddPolicy("ClientCredential", policy =>
                 {
-
                     policy.AuthenticationSchemes.Add("ClientCredentialSchema");
                     policy.RequireAuthenticatedUser();
-
                 });
-
-
-
             });
-            return services;
 
+            // Sign
+            // Aud  => payment.api
+            // Issuer => http://localhost:8080/realms/udemyTenant
+            // TokenLifetime
+
+            return services;
         }
     }
 }

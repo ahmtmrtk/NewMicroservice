@@ -1,4 +1,4 @@
-@using System.Security.Claims
+﻿﻿@using System.Security.Claims
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">UdemyNewMicroservice.Web</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">NewMicroservice.Web</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,10 +33,17 @@
                         @if (User.Identity!.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @User.Identity.Name
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+
+                                    @if (User.Claims.Any(x => x is { Type: ClaimTypes.Role, Value: "instructor" }))
+                                    {
+                                        <li><a class="dropdown-item" asp-page="/Instructor/Index">Instructor</a></li>
+                                    }
+
                                     <li><a class="dropdown-item" asp-page="/Profile">My Profile</a></li>
                                     <li><a class="dropdown-item" asp-page="/Orders">My Orders</a></li>
                                     <li><hr class="dropdown-divider"></li>

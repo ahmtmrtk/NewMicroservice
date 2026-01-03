@@ -9,47 +9,48 @@ using System.Security.Claims;
 
 namespace NewMicroservice.Web.Services
 {
-    public class TokenService(HttpClient client, IdentityOption identityOption)
+    public class TokenService(IHttpClientFactory httpClientFactory, IdentityOption identityOption)
     {
-        public List<Claim> ExtractClaim(string accessToken)
+        public List<Claim> ExtractClaims(string accessToken)
         {
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(accessToken);
 
-            return jwtToken.Claims.ToList();
+            var jwtWebToken = handler.ReadJwtToken(accessToken);
+
+
+            return jwtWebToken.Claims.ToList();
         }
 
         public AuthenticationProperties CreateAuthenticationProperties(TokenResponse tokenResponse)
         {
-            var authenticationToken = new List<AuthenticationToken>
+            var authenticationTokens = new List<AuthenticationToken>
+        {
+            new()
             {
-                new()
-                {
-                    Name = OpenIdConnectParameterNames.AccessToken,
-                    Value = tokenResponse.AccessToken!
-                },
-                new()
-                {
-                    Name = OpenIdConnectParameterNames.RefreshToken,
-                    Value = tokenResponse.RefreshToken!
-                },
-                new()
-                 {
-                    Name = OpenIdConnectParameterNames.ExpiresIn,
-                    Value = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn).ToString("o")
-                }
+                Name = OpenIdConnectParameterNames.AccessToken,
+                Value = tokenResponse.AccessToken!
+            },
+            new()
+            {
+                Name = OpenIdConnectParameterNames.RefreshToken,
+                Value = tokenResponse.RefreshToken!
+            },
+            new()
+            {
+                Name = OpenIdConnectParameterNames.ExpiresIn,
+                Value = DateTime.Now.AddSeconds(tokenResponse.ExpiresIn!).ToString("o")
+            }
+        };
 
-            };
 
             AuthenticationProperties authenticationProperties = new()
             {
                 IsPersistent = true
             };
-            authenticationProperties.StoreTokens(authenticationToken);
+
+            authenticationProperties.StoreTokens(authenticationTokens);
 
             return authenticationProperties;
-
-
         }
 
 
@@ -58,15 +59,15 @@ namespace NewMicroservice.Web.Services
             var discoveryRequest = new DiscoveryDocumentRequest
             {
                 Address = identityOption.Address,
-                Policy =
-                {
-                    RequireHttps = false
-                }
+                Policy = { RequireHttps = false }
             };
+            var client = httpClientFactory.CreateClient("GetTokensByRefreshToken");
             client.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await client.GetDiscoveryDocumentAsync(discoveryRequest);
+            var discoveryResponse = await client.GetDiscoveryDocumentAsync();
+
             if (discoveryResponse.IsError)
-                throw new Exception(discoveryResponse.Error);
+                throw new Exception($"Discovery document request failed: {discoveryResponse.Error}");
+
 
             var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
@@ -76,11 +77,10 @@ namespace NewMicroservice.Web.Services
                 RefreshToken = refreshToken
             });
 
+
             return tokenResponse;
-
-
-
         }
+
 
         public async Task<TokenResponse> GetClientAccessToken()
         {
@@ -90,9 +90,9 @@ namespace NewMicroservice.Web.Services
                 Policy = { RequireHttps = false }
             };
 
-
+            var client = httpClientFactory.CreateClient("GetClientAccessToken");
             client.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await client.GetDiscoveryDocumentAsync(discoveryRequest);
+            var discoveryResponse = await client.GetDiscoveryDocumentAsync();
 
 
             if (discoveryResponse.IsError)
@@ -111,6 +111,5 @@ namespace NewMicroservice.Web.Services
 
             return tokenResponse;
         }
-
     }
 }
