@@ -4,7 +4,14 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "newmicroservice.catalog.api": "StartDebugging"
+        "newmicroservice.catalog.api": "StartDebugging",
+        "newmicroservice.basket.api": "StartDebugging",
+        "newmicroservice.discount.api": "StartDebugging",
+        "newmicroservice.file.api": "StartDebugging",
+        "newmicroservice.gateway": "StartDebugging",
+        "newmicroservice.order.api": "StartDebugging",
+        "newmicroservice.payment.api": "StartDebugging",
+        "newmicroservice.web": "StartDebugging"
       }
     }
   }

@@ -127,6 +127,54 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+  newmicroservice.basket.api:
+    image: newmicroservicebasketapi
+    build:
+      context: .
+      dockerfile: NewMicroservice.Basket.Api/Dockerfile
+
+  newmicroservice.catalog.api:
+    image: newmicroservicecatalogapi
+    build:
+      context: .
+      dockerfile: NewMicroservice.Catalog.Api/Dockerfile
+
+  newmicroservice.discount.api:
+    image: newmicroservicediscountapi
+    build:
+      context: .
+      dockerfile: NewMicroservice.Discount.Api/Dockerfile
+
+  newmicroservice.file.api:
+    image: newmicroservicefileapi
+    build:
+      context: .
+      dockerfile: NewMicroservice.File.Api/Dockerfile
+
+  newmicroservice.gateway:
+    image: newmicroservicegateway
+    build:
+      context: .
+      dockerfile: NewMicroservice.Gateway/Dockerfile
+
+  newmicroservice.order.api:
+    image: newmicroserviceorderapi
+    build:
+      context: .
+      dockerfile: NewMicroService.Order.Api/Dockerfile
+
+  newmicroservice.payment.api:
+    image: newmicroservicepaymentapi
+    build:
+      context: .
+      dockerfile: NewMicroservice.Payment.Api/NewMicroservice.Payment.Api/Dockerfile
+
+  newmicroservice.web:
+    image: newmicroserviceweb
+    build:
+      context: .
+      dockerfile: NewMicroservice.Web/Dockerfile
+
 volumes:
   mongo.db.catalog.volume:
   mongo.db.discount.volume:  
@@ -135,3 +183,10 @@ volumes:
   posrgres.db.keycloak.volume:
   posrgres.db.keycloak.ui.volume:
   rabbitmq_data:
+
+
+
+
+
+
+
