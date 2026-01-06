@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 NewMicroService.Order.Persistance/DesignTimeDbContextFactory.cs
 /NewMicroservice.File.Api/wwwroot/files
+/NewMicroService.Order.Persistance/Migrations

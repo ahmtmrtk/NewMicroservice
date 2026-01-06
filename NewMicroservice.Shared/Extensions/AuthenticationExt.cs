@@ -23,8 +23,13 @@ namespace NewMicroservice.Shared.Extensions
         {
             var identityOptions = configuration.GetSection(nameof(IdentityOption)).Get<IdentityOption>();
 
-
-            services.AddAuthentication().AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            // Ensure default schemes are set to avoid "No authenticationScheme was specified" errors
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.Authority = identityOptions.Address;
                 options.Audience = identityOptions.Audience;
@@ -39,7 +44,8 @@ namespace NewMicroservice.Shared.Extensions
                     RoleClaimType = ClaimTypes.Role,
                     NameClaimType = ClaimTypes.NameIdentifier
                 };
-            }).AddJwtBearer("ClientCredentialSchema", options =>
+            })
+            .AddJwtBearer("ClientCredentialSchema", options =>
             {
                 options.Authority = identityOptions.Address;
                 options.Audience = identityOptions.Audience;
@@ -53,6 +59,7 @@ namespace NewMicroservice.Shared.Extensions
                     ValidateIssuer = true
                 };
             });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Password", policy =>
@@ -68,11 +75,6 @@ namespace NewMicroservice.Shared.Extensions
                     policy.RequireAuthenticatedUser();
                 });
             });
-
-            // Sign
-            // Aud  => payment.api
-            // Issuer => http://localhost:8080/realms/udemyTenant
-            // TokenLifetime
 
             return services;
         }
