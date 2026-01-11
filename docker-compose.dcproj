@@ -14,5 +14,14 @@
     <None Include="docker-compose.override.yml" />
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="NewMicroservice.Discount.Api.Tests\CreateDiscountCommandHandlerTests.cs" />
+    <None Include="NewMicroservice.Discount.Api.Tests\NewMicroservice.Discount.Api.Tests.csproj" />
+    <None Include="NewMicroService.Order.Tests\NewMicroService.Order.Tests.csproj" />
+    <None Include="NewMicroService.Order.Tests\UnitOfWorkTests.cs" />
+    <None Include="NewMicroservice.Shared.Tests\IdentityServiceFakeTests.cs" />
+    <None Include="NewMicroservice.Shared.Tests\NewMicroservice.Shared.Tests.csproj" />
+    <None Include="NewMicroservice.Shared.Tests\ServiceResultGenericTests.cs" />
+    <None Include="NewMicroservice.Shared.Tests\ServiceResultTests.cs" />
+    <None Include="UNIT_TESTS_DOCUMENTATION.md" />
   </ItemGroup>
 </Project>
